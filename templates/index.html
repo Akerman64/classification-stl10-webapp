@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification d'Images - STL-10</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Upload Card */
+        .upload-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 3rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background-color: #fafafa;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--primary-color);
+            background-color: #eef2ff;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .upload-area:hover .upload-icon {
+            color: var(--primary-color);
+        }
+
+        .upload-text {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .browse-btn {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+            pointer-events: none; /* Let the file input handle clicks */
+        }
+
+        input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Results Section */
+        .results-container {
+            margin-top: 3rem;
+            width: 100%;
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .image-preview-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-preview-card img {
+            max-width: 100%;
+            border-radius: 8px;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .predictions-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .prediction-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .prediction-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .prediction-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .progress-bg {
+            background-color: #e5e7eb;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), #818cf8);
+            border-radius: 5px;
+            transition: width 1s ease-in-out;
+            width: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .preview-thumb {
+            margin-top: 1rem;
+            max-height: 150px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">
+            <i class="fas fa-paw"></i>
+            <span>AnimAI Detect</span>
+        </div>
+        <div>
+            <a href="#" style="text-decoration: none; color: var(--text-secondary); margin-left: 1rem;"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="hero-section">
+            <h1 class="hero-title">Identifiez la race de votre animal</h1>
+            <p class="hero-subtitle">Utilisez notre intelligence artificielle avancée pour analyser et classifier vos photos en quelques secondes.</p>
+        </div>
+
+        <div class="upload-container">
+            <form id="uploadForm" method="post" enctype="multipart/form-data">
+                <div class="upload-area" id="dropArea">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <p class="upload-text">Glissez-déposez votre image ici ou</p>
+                    <span class="browse-btn">Parcourir les fichiers</span>
+                    <input type="file" name="file" id="fileInput" accept=".png, .jpg, .jpeg" required>
+                </div>
+                <img id="localPreview" class="preview-thumb" alt="Aperçu">
+                <button type="submit" class="submit-btn" onclick="showLoading()">
+                    <i class="fas fa-search"></i> Analyser l'image
+                </button>
+            </form>
+        </div>
+
+        {% if image_url %}
+        <div class="results-container">
+            <div class="image-preview-card">
+                <img src="{{ image_url }}" alt="Image Analysée">
+            </div>
+            
+            <div class="predictions-card">
+                <div class="prediction-header">
+                    <i class="fas fa-chart-bar"></i> Résultats de l'analyse
+                </div>
+                
+                {% if predictions %}
+                    {% for pred in predictions %}
+                    <div class="prediction-item">
+                        <div class="prediction-label">
+                            <span>
+                                {% if pred.class == 'dog' %}<i class="fas fa-dog"></i>
+                                {% elif pred.class == 'cat' %}<i class="fas fa-cat"></i>
+                                {% elif pred.class == 'bird' %}<i class="fas fa-dove"></i>
+                                {% elif pred.class == 'car' %}<i class="fas fa-car"></i>
+                                {% elif pred.class == 'airplane' %}<i class="fas fa-plane"></i>
+                                {% else %}<i class="fas fa-tag"></i>{% endif %}
+                                {{ pred.class }}
+                            </span>
+                            <span>{{ pred.probability }}%</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="width: {{ pred.probability }}%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Aucune prédiction disponible.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </main>
+    
+    <div class="loading-overlay" id="loadingOverlay">
+        <div style="text-align: center;">
+            <div class="spinner"></div>
+            <p style="margin-top: 1rem; font-weight: 500;">Analyse en cours...</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AnimAI Detect - Projet Deep Learning</p>
+    </footer>
+
+    <script>
+        // Drag & Drop interactions
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const localPreview = document.getElementById('localPreview');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropArea.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dropArea.classList.remove('dragover');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            handleFiles(files);
+        }
+        
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        localPreview.src = e.target.result;
+                        localPreview.style.display = 'inline-block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function showLoading() {
+            if (fileInput.files.length > 0) {
+                document.getElementById('loadingOverlay').style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
