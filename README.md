@@ -51,7 +51,5 @@ Solution : Installez l'environnement virtuel dans un dossier à la racine de vot
 - `templates/index.html` : L'interface utilisateur.
 - `requirements.txt` : Liste des dépendances.
 - `mobilenet_stl10_transfer_learning.keras` : Le modèle entraîné (non inclus dans le dépôt git, à télécharger séparément si nécessaire).
+- 'CNN-Transfert.ipynb' : Le notebook pour la création et l'entrainement du modèle
 
-## Organisation DevOps
-
-Voir le fichier [DEVOPS.md](DEVOPS.md) pour les détails sur l'organisation Agile et les pipelines CI/CD.
