@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  classification_stl10_webapp:
+    build: .
+    container_name: animal_class_webApp
+    ports:
+      - "5000:5000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - webApp_data:/app/logs
+
+volumes:
+  webApp_data:
