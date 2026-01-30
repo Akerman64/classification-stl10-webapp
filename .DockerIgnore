@@ -1,21 +1,28 @@
-# Python
 __pycache__/
 *.py[cod]
 *$py.class
+
 
 # Virtual Environment
 venv/
 env/
 tf_env/
 .venv*/
+
 logs/
 # Environment variables
 .env
 
+*.ipynb
 # IDE
 .vscode/
 .idea/
 
+*.md
+.gitignore
+
+test_app.py
+
 # Uploads
-static/uploads/
+static/uploads/*
 !static/uploads/.gitkeep
