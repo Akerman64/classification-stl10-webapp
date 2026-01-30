@@ -10,7 +10,24 @@ Ce projet implémente une application web pour classifier des images selon les 1
 - Pillow
 - [Docker](https://docs.docker.com/get-started/get-docker/) (si vous souhaiter lancer l'application sous docker)
 
-## Installation
+## Lancement de l'application avec Docker
+1. Clonez ce dépôt.
+    ```bash
+         git clone https://github.com/Akerman64/classification-stl10-webapp.git
+
+         #entrer dans le repertoire du projet à adapter selon le système
+         cd ./classification-stl10-webapp
+    
+    ```
+2. Lancer l'application Django avec Docker puis passer à l'étape 4
+  ```bash
+
+  docker-compose up --build -d
+  ```
+2. Ouvrez votre navigateur à l'adresse : `http://localhost:5000`
+
+   
+## Installation normale 
 
 1. Clonez ce dépôt.
     ```bash
@@ -32,25 +49,27 @@ Ce projet implémente une application web pour classifier des images selon les 1
    # pour l'installation des dépendances utiles au projet
    pip install -r requirements.txt
    ```
-4. Lancer l'application Django avec Docker
-  ```bash
-
-  docker-compose up --build -d
-  ```
+   
 
 ## Lancement de l'application
 
 1. Assurez-vous que le modèle `mobilenet_stl10_transfer_learning.keras` est présent à la racine du projet.
-2. Lancez le serveur Flask (assurez-vous que votre venv est activé) :
+3. Lancez le serveur Flask (assurez-vous que votre venv est activé) :
    ```bash
    python app.py
    ```
-3. Ouvrez votre navigateur à l'adresse : `http://127.0.0.1:5000`
+
+4. Ouvrez votre navigateur à l'adresse : `http://127.0.0.1:5000`
+
+
 
 ## Dépannage Windows (Erreur "Long Path")
 
 Si vous rencontrez une erreur lors de l'installation de TensorFlow sur Windows (`Could not install packages due to an OSError...`), c'est souvent dû à la limite de 260 caractères des chemins de fichiers.
 Solution : Installez l'environnement virtuel dans un dossier à la racine de votre disque (ex: `C:\tf_env`) plutôt que dans votre dossier utilisateur imbriqué.
+
+
+
 
 ## Utilisation
 
