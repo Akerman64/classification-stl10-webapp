@@ -16,7 +16,7 @@ Ce projet implémente une application web pour classifier des images selon les 1
    ```bash
    # Sur Windows, créez l'environnement dans un chemin court (ex: C:\env) pour éviter les erreurs de limite de chemin
    python -m venv C:\Users\User\tf_env
-   
+
    # Activez l'environnement
    C:\Users\User\tf_env\Scripts\activate
    ```
@@ -52,4 +52,6 @@ Solution : Installez l'environnement virtuel dans un dossier à la racine de vot
 - `requirements.txt` : Liste des dépendances.
 - `mobilenet_stl10_transfer_learning.keras` : Le modèle entraîné (non inclus dans le dépôt git, à télécharger séparément si nécessaire).
 - 'CNN-Transfert.ipynb' : Le notebook pour la création et l'entrainement du modèle
+- ```
 
+  ```
