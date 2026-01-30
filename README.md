@@ -4,26 +4,39 @@ Ce projet implémente une application web pour classifier des images selon les 1
 
 ## Prérequis
 
-- Python 3.8+
-- TensorFlow
+- [Python 3.8+](https://www.python.org/downloads/)
+- [TensorFlow](https://www.tensorflow.org/install?hl=fr)
 - Flask
 - Pillow
+- [Docker](https://docs.docker.com/get-started/get-docker/) (si vous souhaiter lancer l'application sous docker)
 
 ## Installation
 
 1. Clonez ce dépôt.
+    ```bash
+         git clone https://github.com/Akerman64/classification-stl10-webapp.git
+
+         #entrer dans le repertoire du projet à adapter selon le système
+         cd ./classification-stl10-webapp
+    
+    ```
 2. Créez un environnement virtuel (recommandé pour éviter les conflits et les erreurs de chemin long sur Windows) :
    ```bash
-   # Sur Windows, créez l'environnement dans un chemin court (ex: C:\env) pour éviter les erreurs de limite de chemin
-   python -m venv C:\Users\User\tf_env
+   python -m venv .venv
    
    # Activez l'environnement
-   C:\Users\User\tf_env\Scripts\activate
+   source .venv/bin/activate  # ou .venv\Scripts\activate sous Windows
    ```
 3. Installez les dépendances :
    ```bash
+   # pour l'installation des dépendances utiles au projet
    pip install -r requirements.txt
    ```
+4. Lancer l'application Django avec Docker
+  ```bash
+
+  docker-compose up --build -d
+  ```
 
 ## Lancement de l'application
 
@@ -52,4 +65,3 @@ Solution : Installez l'environnement virtuel dans un dossier à la racine de vot
 - `requirements.txt` : Liste des dépendances.
 - `mobilenet_stl10_transfer_learning.keras` : Le modèle entraîné (non inclus dans le dépôt git, à télécharger séparément si nécessaire).
 - 'CNN-Transfert.ipynb' : Le notebook pour la création et l'entrainement du modèle
-
