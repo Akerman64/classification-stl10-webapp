@@ -1,7 +1,7 @@
 # Classification d'images avec Deep Learning (STL-10)
 
 Ce projet implémente une application web pour classifier des images selon les 10 classes du dataset STL-10 en utilisant un modèle de Deep Learning basé sur le Transfer Learning (MobileNet).
-<img width="1850" height="872" alt="image" src="https://github.com/user-attachments/assets/346d0313-e63a-4c9f-960c-aa15fc48de5d" /><img width="1721" height="620" alt="image" src="https://github.com/user-attachments/assets/2f44765e-633e-48f6-8cd0-ef84608871a8" />
+<img width="1850" height="500" alt="image" src="https://github.com/user-attachments/assets/346d0313-e63a-4c9f-960c-aa15fc48de5d" /><img width="1721" height="500" alt="image" src="https://github.com/user-attachments/assets/2f44765e-633e-48f6-8cd0-ef84608871a8" />
 
 
 
